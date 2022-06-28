@@ -39,7 +39,8 @@ jobs:
       - name: Run tests
         run: npm run test
 
-      - uses: Tintef/nyc-reporter-action
+      - name: Run coverage
+      - uses: Tintef/nyc-reporter-action@0.2.5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPORTER: 'text' # defaults to 'text-summary'
