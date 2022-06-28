@@ -1,5 +1,8 @@
 on: [pull_request]
 
+env:
+  JWT_SECRET: 'secret'
+
 jobs:
   eslint:
     runs-on: ubuntu-latest
@@ -20,38 +23,18 @@ jobs:
 
   test_coverage:
     runs-on: ubuntu-latest
-    name: Teste de cobertura
-    env:
-      JWT_SECRET: 'secret'
     steps:
-      - name: Verifica o repositório do Git
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 1000
+      - uses: actions/checkout@v2
 
-      - name: Buscar base
-        run: git fetch origin ${{ github.event.pull_request.base.ref }}
-      
-      - name: Instala o nodejs
-        uses: actions/setup-node@v2
+      - name: Use Node.js 16
+        uses: actions/setup-node@v1
         with:
           node-version: 16
-      
-      - name: Instala as dependências
-        run: npm install
 
-      - name: Executa os testes
-        run: npm run test:coverage
+      - uses: bahmutov/npm-install@v1
 
-      - name: Gera o relatório de cobertura
-        run: |
-          npx nyc report \
-            --reporter json-summary \
-            --report-dir nyc-coverage-report \
-            --exclude-after-remap false
-
-      - name: Reporta o relatório
-        uses: sidx1024/report-nyc-coverage-github-action@v1.1
+      - name: Report test coverage
+        uses: PoorlyDefinedBehaviour/nyc-reporter@v1
         with:
-          coverage_output_directory: "nyc-coverage-report/"
+          command: "npm test"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
