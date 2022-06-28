@@ -21,6 +21,8 @@ jobs:
   test_coverage:
     runs-on: ubuntu-latest
     name: Teste de cobertura
+    env:
+      JWT_SECRET: 'secret'
     steps:
       - name: Verifica o repositório do Git
         uses: actions/checkout@v3
