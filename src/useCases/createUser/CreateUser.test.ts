@@ -31,6 +31,8 @@ describe('Create User Use Case', () => {
       .post('/user')
       .send(defaultUser);
 
+    console.log(response);
+
     expect(response.status).to.equal(201);
     expect(response.body.token).to.be.a('string');
   });
