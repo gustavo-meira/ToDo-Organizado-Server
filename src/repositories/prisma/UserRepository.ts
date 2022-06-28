@@ -30,6 +30,19 @@ class UserRepository implements IUserRepository {
       throw err;
     }
   }
+
+  async getByEmail(email: string): Promise<UserEntity | null> {
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
+      return user ? new UserEntity(user) : null;
+    } catch (err) {
+      return null;
+    }
+  }
 }
 
 export { UserRepository };
