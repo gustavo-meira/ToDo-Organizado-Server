@@ -17,3 +17,39 @@ jobs:
 
       - name: Executa o lint para verificar se há erros
         run: npx eslint ./src --ext .ts
+
+  test_coverage:
+    runs-on: ubuntu-latest
+    name: Teste de cobertura
+    steps:
+      - name: Verifica o repositório do Git
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1000
+
+      - name: Buscar base
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}
+      
+      - name: Instala o nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      
+      - name: Instala as dependências
+        run: npm install
+
+      - name: Executa os testes
+        run: npm test
+
+      - name: Gera o relatório de cobertura
+        run: |
+          npx nyc report \
+            --reporter json-summary \
+            --report-dir nyc-coverage-report \
+            --exclude-after-remap false
+
+      - name: Reporta o relatório
+        uses: sidx1024/report-nyc-coverage-github-action@v1.1
+        with:
+          coverage_file: "nyc-coverage-report/coverage-summary.json"
