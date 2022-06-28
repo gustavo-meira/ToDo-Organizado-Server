@@ -34,7 +34,7 @@ jobs:
           node-version: 16
 
       - name: Instala as dependências
-          run: npm install
+        run: npm install
 
       - name: Run tests
         run: npm run test
