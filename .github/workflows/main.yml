@@ -27,11 +27,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Use Node.js 16
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 16
 
-      - uses: bahmutov/npm-install@v1
+      - name: Instala as dependências
+        run: npm install
 
       - name: Report test coverage
         uses: PoorlyDefinedBehaviour/nyc-reporter@v1
