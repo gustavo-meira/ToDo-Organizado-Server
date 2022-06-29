@@ -43,6 +43,19 @@ class UserRepository implements IUserRepository {
       return null;
     }
   }
+
+  async getById(id: string): Promise<UserEntity | null> {
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          id,
+        },
+      });
+      return user ? new UserEntity(user) : null;
+    } catch (err) {
+      return null;
+    }
+  }
 }
 
 export { UserRepository };
