@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { TaskEntity } from '../../entities/TaskEntity';
+import { TaskEntity, TaskStatus } from '../../entities/TaskEntity';
 import { ITaskRepository } from '../ITaskRepository';
 
 class TaskRepository implements ITaskRepository {
@@ -17,6 +17,24 @@ class TaskRepository implements ITaskRepository {
         status: task.status,
       },
     });
+  }
+
+  async getAll(userId: string): Promise<TaskEntity[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    return tasks.map((task) => new TaskEntity({
+      id: task.id,
+      title: task.title,
+      details: task.details,
+      userId: task.userId,
+      deadline: task.deadline,
+      startDate: task.startDate,
+      status: task.status as TaskStatus,
+    }));
   }
 }
 
