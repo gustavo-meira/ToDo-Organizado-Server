@@ -6,6 +6,7 @@ import { createTaskController } from '../useCases/createTask';
 import { deleteTaskController } from '../useCases/deleteTask';
 import { getAllTasksController } from '../useCases/getAllTasks';
 import { updateTaskController } from '../useCases/updateTask';
+import { updateTaskStatusController } from '../useCases/updateTaskStatus';
 
 const taskRouter = Router();
 
@@ -29,6 +30,10 @@ taskRouter.delete('/:id', (req: unknown, res, next) => {
 
 taskRouter.put('/:id', (req: unknown, res, next) => {
   updateTaskController.handle(req as RequestWithUser, res, next);
+});
+
+taskRouter.patch('/:id', (req, res, next) => {
+  updateTaskStatusController.handle(req, res, next);
 });
 
 export { taskRouter };
