@@ -44,6 +44,21 @@ class TaskRepository implements ITaskRepository {
       },
     });
   }
+
+  async update(task: TaskEntity): Promise<void> {
+    await this.prisma.task.update({
+      where: {
+        id: task.id,
+      },
+      data: {
+        title: task.title,
+        details: task.details,
+        deadline: task.deadline,
+        startDate: task.startDate,
+        status: task.status,
+      },
+    });
+  }
 }
 
 export { TaskRepository };
