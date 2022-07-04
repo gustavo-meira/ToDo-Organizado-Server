@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { RequestWithUser } from '../interfaces/RequestWithUser';
+import { checkUserIdWithTask } from '../middlewares/checkUserIdWithTask';
 import { decodeToken } from '../middlewares/decodeToken';
 import { validateNewTask } from '../middlewares/validateNewTask';
 import { createTaskController } from '../useCases/createTask';
@@ -22,6 +23,10 @@ taskRouter.post('/', (req, res, next) => {
 
 taskRouter.get('/', (req, res, next) => {
   getAllTasksController.handle(req as RequestWithUser, res, next);
+});
+
+taskRouter.use((req: unknown, res, next) => {
+  checkUserIdWithTask(req as RequestWithUser, res, next);
 });
 
 taskRouter.delete('/:id', (req: unknown, res, next) => {
