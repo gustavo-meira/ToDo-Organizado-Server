@@ -59,6 +59,17 @@ class TaskRepository implements ITaskRepository {
       },
     });
   }
+
+  async updateStatus(taskId: string, status: TaskStatus): Promise<void> {
+    await this.prisma.task.update({
+      where: {
+        id: taskId,
+      },
+      data: {
+        status,
+      },
+    });
+  }
 }
 
 export { TaskRepository };
