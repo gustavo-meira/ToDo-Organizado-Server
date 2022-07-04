@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { TaskEntity, TaskStatus } from '../../entities/TaskEntity';
+import { NotFoundError } from '../../errors/NotFoundError';
 import { ITaskRepository } from '../ITaskRepository';
 
 class TaskRepository implements ITaskRepository {
@@ -68,6 +69,28 @@ class TaskRepository implements ITaskRepository {
       data: {
         status,
       },
+    });
+  }
+
+  async getById(id: string): Promise<TaskEntity> {
+    const task = await this.prisma.task.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!task) {
+      throw new NotFoundError('"task" not found');
+    }
+
+    return new TaskEntity({
+      id: task.id,
+      title: task.title,
+      details: task.details,
+      userId: task.userId,
+      deadline: task.deadline,
+      startDate: task.startDate,
+      status: task.status as TaskStatus,
     });
   }
 }

@@ -6,6 +6,7 @@ interface ITaskRepository {
   delete(id: string): Promise<void>;
   update(task: TaskEntity): Promise<void>;
   updateStatus(taskId: string, status: TaskStatus): Promise<void>;
+  getById(id: string): Promise<TaskEntity>;
 }
 
 export { ITaskRepository };
