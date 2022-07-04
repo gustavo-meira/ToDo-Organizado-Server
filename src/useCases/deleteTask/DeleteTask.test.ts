@@ -22,11 +22,19 @@ describe('Delete Task Use Case', () => {
         title: 'test',
         userId: 'test',
       })]);
+
+    sinon.stub(TaskRepository.prototype, 'getById')
+      .resolves(new TaskEntity({
+        id: 'test',
+        title: 'test',
+        userId: 'test',
+      }));
   });
 
   afterEach(() => {
     (TaskRepository.prototype.delete as sinon.SinonStub).restore();
     (TaskRepository.prototype.getAll as sinon.SinonStub).restore();
+    (TaskRepository.prototype.getById as sinon.SinonStub).restore();
   });
 
   const jwtProvider = new JWTProvider();

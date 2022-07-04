@@ -24,12 +24,20 @@ describe('Update Task Use Case', () => {
         username: 'username',
         email: 'test@test.com',
         password: 'password',
-      }))
+      }));
+
+    sinon.stub(TaskRepository.prototype, 'getById')
+      .resolves(new TaskEntity({
+        id: 'test',
+        title: 'test',
+        userId: 'test',
+      }));
   });
 
   afterEach(() => {
     (TaskRepository.prototype.update as sinon.SinonStub).restore();
     (UserRepository.prototype.getById as sinon.SinonStub).restore();
+    (TaskRepository.prototype.getById as sinon.SinonStub).restore();
   });
 
   const jwtProvider = new JWTProvider();
