@@ -136,5 +136,5 @@ Essa rota precisa receber o token JWT no header da requisição no campo `author
 
 ## Aprendizados
 
-Durante o desenvolvimento do projeto eu tentei utilizar as 
+Durante o desenvolvimento do projeto eu tentei utilizar as melhores práticas de programação possíveis. Commits semânticos, testes, documentação, clean code, etc.
 
